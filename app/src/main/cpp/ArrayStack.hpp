@@ -1,7 +1,6 @@
 //
 // Created by You on 2018/6/3.
 //
-
 #ifndef CTEST_ARRAYSTACK_HPP
 #define CTEST_ARRAYSTACK_HPP
 

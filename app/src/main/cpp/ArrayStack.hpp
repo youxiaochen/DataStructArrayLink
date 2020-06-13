@@ -61,15 +61,6 @@ bool ArrayStack<E>::push(const E &e) {
     {
         capacity += capacity >> 1;//扩充成原先的1.5倍
         this->datas = (E*) realloc(this->datas, sizeof(E) * capacity);
-
-/*
-        E *newDatas = (E*) malloc(sizeof(E) * capacity);
-        for (int i = 0; i < Stack<E>::len; i++)
-        {
-            newDatas[i] = datas[i];
-        }
-        free(datas);
-        datas = newDatas;*/
     }
     datas[Stack<E>::len] = e;
     Stack<E>::len++;

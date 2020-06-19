@@ -5,8 +5,6 @@
 #ifndef CTEST_STACK_HPP
 #define CTEST_STACK_HPP
 
-#define NULL 0
-
 template <class E>
 class Stack {
 protected:

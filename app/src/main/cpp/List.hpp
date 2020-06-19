@@ -5,8 +5,6 @@
 #ifndef CTEST_LIST_HPP
 #define CTEST_LIST_HPP
 
-#define NULL 0
-
 template <class E>
 class List {
 

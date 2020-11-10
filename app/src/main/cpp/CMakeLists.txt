@@ -17,11 +17,7 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        native-lib.cpp List.hpp LinkedList.hpp ArrayList.hpp
-        Stack.hpp ArrayStack.hpp LinkedStack.hpp
-        ArrayDeque.hpp
-        PriorityQueue.hpp HeapSort.cpp
-        Dog.cpp)
+        native-lib.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by

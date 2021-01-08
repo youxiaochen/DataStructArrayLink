@@ -12,7 +12,10 @@ using namespace std;
 #include "ArrayDeque.hpp"
 #include "PriorityQueue.hpp"
 #include "HeapSort.cpp"
+#include "BlockingQueue.hpp"
 
+#include <pthread.h>
+#include <unistd.h>
 
 extern "C" {
 

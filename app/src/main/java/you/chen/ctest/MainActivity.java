@@ -5,8 +5,6 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Stack;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     static {

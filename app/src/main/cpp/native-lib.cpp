@@ -50,6 +50,30 @@ extern "C" {
             LOGD("Dog %s, %d", dog.name, dog.age);
         }
         dogs1.clear();
+
+        LOGD("------divider--------- \n\n\n");
+
+        ArrayList<int> intts;
+
+        intts.add(12);
+        intts.add(0, 15);
+        intts.add(1, 45);
+        intts.add(14);
+        intts.add(18);
+        intts.add(19);
+        intts.add(20);
+        intts.add(21);
+        intts.add(22);
+        intts.add(23);
+        intts.add(24);
+        intts.add(25);
+        intts.remove(2);
+        intts.remove(1);
+
+        for (int i = 0; i < intts.size(); ++i) {
+            LOGD("intts index %d = %d", i, intts.get(i));
+        }
+
     }
 
     JNIEXPORT void JNICALL
@@ -159,6 +183,34 @@ extern "C" {
             LOGD("Dog %s, %d", dog->name, dog->age);
         }
         delete deque; delete dog1; delete dog2; delete dog3;
+        LOGD("------divider--------- \n\n\n");
+
+        ArrayDeque<int > intDeque;
+        intDeque.push(12);
+        intDeque.push(13);
+        intDeque.push(14);
+        intDeque.push(15);
+        intDeque.push(16);
+        intDeque.push(17);
+        intDeque.push(18);
+        intDeque.push(19);
+        intDeque.push(20);
+        intDeque.pushFront(11);
+        intDeque.pushFront(10);
+        intDeque.pushFront(9);
+        intDeque.pushFront(8);
+        intDeque.pushFront(7);
+        intDeque.pushFront(6);
+        intDeque.pop();
+        intDeque.popBack();
+
+        intDeque.pushFront(1);
+        intDeque.push(50);
+
+        while (!intDeque.isEmpty()) {
+            int v = intDeque.pop();
+            LOGD("intDeque pop %d", v);
+        }
     }
 
     struct DogCompare {

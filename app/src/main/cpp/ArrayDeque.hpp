@@ -68,12 +68,8 @@ void ArrayDeque<E>::grow() {
     int new_size = initialCapacity << 1;
     E *newDatas = (E*) malloc(sizeof(E) * new_size);
     int copyIndex = initialCapacity - backIndex;
-    for (int i = 0; i < backIndex; i++) {
-        newDatas[copyIndex + i] = datas[i];
-    }
-    for (int i = 0; i < copyIndex; i++) {
-        newDatas[i] = datas[i + backIndex];
-    }
+    memcpy(newDatas, datas + backIndex, sizeof(E) * copyIndex);
+    memcpy(newDatas + copyIndex, datas, sizeof(E) * backIndex);
     headIndex = 0;
     backIndex = initialCapacity;
     initialCapacity = new_size;

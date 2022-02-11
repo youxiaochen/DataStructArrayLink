@@ -16,10 +16,12 @@ private:
     /**
      * 初始化数组大小
      */
-    int initialCapacity;
+    int data_size = 0;
     E *datas = NULL;
+
+    void ensureCapacityInternal(int minCapacity);
     //扩充
-    void grow(int index, const E &e);
+    void grow(int minCapacity);
 
 public:
 
@@ -36,13 +38,13 @@ public:
 
 //默认大小10
 template <class E>
-ArrayList<E>::ArrayList() : ArrayList(10) {
+ArrayList<E>::ArrayList() {
 }
 
 template <class E>
 ArrayList<E>::ArrayList(int initialCapacity) {
     assert(initialCapacity > 1);
-    this->initialCapacity = initialCapacity;
+    this->data_size = initialCapacity;
     this->datas = (E*) malloc(sizeof(E) * initialCapacity);
 }
 
@@ -61,21 +63,32 @@ ArrayList<E>::~ArrayList() {
  * @param e
  */
 template <class E>
-void ArrayList<E>::grow(int index, const E &e) {
-    initialCapacity += initialCapacity >> 1;//扩充成原先的1.5倍
-    E *newDatas = (E*) malloc(sizeof(E) * initialCapacity);
-    for (int i = 0; i < index; i++)
-    {
-        newDatas[i] = this->datas[i];
+void ArrayList<E>::ensureCapacityInternal(int minCapacity) {
+    if (this->datas == NULL) {
+        minCapacity = 10; //默认10个大小
     }
-    newDatas[index] = e;
-    for (int i = index + 1; i <= List<E>::len; i++)
-    {
-        newDatas[i] = datas[i - 1];
+    if (minCapacity > this->data_size) {
+        grow(minCapacity);
     }
-    free(this->datas);
-    this->datas = newDatas;
-    List<E>::len++;
+}
+
+template <class E>
+void ArrayList<E>::grow(int minCapacity) {
+    int new_len = data_size + (data_size >> 1);
+    if (new_len < minCapacity) {
+        new_len = minCapacity;
+    }
+    E *new_datas = (E*) malloc(sizeof(E) * new_len);
+    if (this->datas != NULL) {
+        if (List<E>::len > 0) {
+            // 拷贝数据
+            memcpy(new_datas, this->datas, sizeof(E) * List<E>::len);
+        }
+        // 释放原来的内存
+        free(this->datas);
+    }
+    this->datas = new_datas;
+    this->data_size = new_len;
 }
 
 template <class E>
@@ -85,21 +98,17 @@ void ArrayList<E>::clear() {
 
 template <class E>
 bool ArrayList<E>::add(const E &e) {
-    return add(ArrayList<E>::size(), e);
+    ensureCapacityInternal(List<E>::len + 1);
+    this->datas[List<E>::len++] = e;
+    return true;
 }
 
 template <class E>
 bool ArrayList<E>::add(int index, const E &e) {
     assert(index >= 0 && index <= List<E>::len);
-    if (List<E>::len == initialCapacity)
-    {//需要扩充
-        grow(index, e);
-        return true;
-    }
-    for (int i = List<E>::len - 1; i >= index; i--) {
-        datas[i + 1] = datas[i];
-    }
-    datas[index] = e;
+    ensureCapacityInternal(List<E>::len + 1);
+    memmove(this->datas + index + 1, this->datas + index, sizeof(E) * (List<E>::len - index));
+    this->datas[index] = e;
     List<E>::len++;
     return true;
 }
@@ -108,9 +117,9 @@ template <class E>
 E ArrayList<E>::remove(int index) {
     assert(index >= 0 && index < List<E>::len);
     E data = datas[index];
-    for (int i = index; i < List<E>::len - 1; i++)
-    {
-        datas[i] = datas[i + 1];
+    int num_moved = List<E>::len - index - 1;
+    if (num_moved > 0) {
+        memmove(this->datas + index, this->datas + index + 1, sizeof(E) * num_moved);
     }
     List<E>::len--;
     return data;
